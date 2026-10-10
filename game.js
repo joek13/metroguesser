@@ -393,6 +393,7 @@
       }
     });
     $("help-btn").addEventListener("click", () => $("help").showModal());
+    $("about-btn").addEventListener("click", () => $("about").showModal());
 
     startDaily();
     tickCountdown();

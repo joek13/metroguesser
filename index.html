@@ -16,7 +16,10 @@
       <span class="title">MetroGuesser</span>
       <span class="puzzle" id="puzzle-label"></span>
     </div>
-    <button class="icon-btn" id="help-btn" aria-label="How to play">?</button>
+    <div class="topbar-actions">
+      <button class="icon-btn info-icon" id="about-btn" aria-label="About">i</button>
+      <button class="icon-btn" id="help-btn" aria-label="How to play">?</button>
+    </div>
   </header>
 
   <section class="prompt" aria-live="polite">
@@ -58,6 +61,13 @@
     <ul class="legend" id="help-legend"></ul>
     <p class="fine">A new station appears at local midnight. <span id="help-credit"></span></p>
     <form method="dialog"><button class="primary">Got it</button></form>
+  </dialog>
+
+  <dialog id="about">
+    <h2>About</h2>
+    <p>MetroGuesser is developed by <a href="https://kerrigan.dev">Joe Kerrigan</a></p>
+    <p class="fine">Disclosure: this application is 100% vibe-coded. Thanks Claude!</p>
+    <form method="dialog"><button class="primary">Close</button></form>
   </dialog>
 
   <div class="toast" id="toast" role="status"></div>
