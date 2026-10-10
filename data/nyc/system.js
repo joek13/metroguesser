@@ -2,7 +2,7 @@ window.METRO_SYSTEM = {
   id: "nyc",
   name: "New York City Subway",
   timezone: "America/New_York",
-  launchDate: "2026-10-09", // puzzle #1; also seeds the daily shuffle
+  launchDate: "2026-10-09", // puzzle #1
   units: "mi",
   // Upper bounds (in `units`) of the green / yellow / orange distance bands; beyond is red.
   distanceBands: [0.5, 1.5, 4],

@@ -12,5 +12,7 @@ Play: open `index.html` in a browser (no build step or server needed). Choose a 
 - Track geometry: MTA subway GTFS `shapes.txt`.
 - Basemap: [OpenFreeMap](https://openfreemap.org) vector tiles (OpenStreetMap data) with all label layers removed.
 
+Daily solutions and their "Did you know?" facts are in `data/nyc/funfacts.js`. Fill in facts by hand there.
+
 Regenerate `data/nyc/` with the instructions at the top of `tools/build_nyc.py`. To add another system,
 see [`data/README.md`](data/README.md).

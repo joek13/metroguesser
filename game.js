@@ -16,13 +16,13 @@
     });
   }
 
-  Promise.all(["system", "stations", "lines"].map((f) => loadScript(`data/${systemId}/${f}.js`)))
-    .then(() => main(window.METRO_SYSTEM, window.STATIONS, window.LINES))
+  Promise.all(["system", "stations", "lines", "funfacts"].map((f) => loadScript(`data/${systemId}/${f}.js`)))
+    .then(() => main(window.METRO_SYSTEM, window.STATIONS, window.LINES, window.FUN_FACTS))
     .catch((err) => {
       document.getElementById("status").textContent = `Couldn't load map data: ${err.message}`;
     });
 
-  function main(system, stations, lines) {
+  function main(system, stations, lines, funFacts) {
     const MAX_GUESSES = 6;
     const TAP_RADIUS_PX = 22;
     const STORAGE_PREFIX = "metroguesser:";
@@ -54,30 +54,18 @@
       return Math.round((Date.parse(dateStr) - Date.parse(system.launchDate)) / 86400000);
     }
 
-    function mulberry32(seed) {
-      return () => {
-        seed = (seed + 0x6d2b79f5) | 0;
-        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-      };
-    }
-
-    // A fixed shuffle of all stations; day N plays entry N, so no repeats until the list wraps.
-    const dailyOrder = (() => {
-      const ids = stations.map((s) => s.id).sort((a, b) => a.localeCompare(b, "en", { numeric: true }));
-      const rand = mulberry32(Number(system.launchDate.replace(/-/g, "")));
-      for (let i = ids.length - 1; i > 0; i--) {
-        const j = Math.floor(rand() * (i + 1));
-        [ids[i], ids[j]] = [ids[j], ids[i]];
-      }
-      return ids;
-    })();
+    // funfacts.js fixes the order of daily solutions: day N plays entry N, wrapping at the end.
+    const schedule = funFacts.filter((f) => {
+      if (byId.has(f.id)) return true;
+      console.warn(`funfacts.js: unknown station id ${f.id} (${f.station})`);
+      return false;
+    });
+    const factFor = new Map(funFacts.filter((f) => f.fact).map((f) => [f.id, f]));
 
     function dailyStation(dateStr) {
       const n = dayNumber(dateStr);
-      const idx = ((n % dailyOrder.length) + dailyOrder.length) % dailyOrder.length;
-      return byId.get(dailyOrder[idx]);
+      const idx = ((n % schedule.length) + schedule.length) % schedule.length;
+      return byId.get(schedule[idx].id);
     }
 
     // ---------- Geometry ----------
@@ -119,6 +107,10 @@
       maxZoom: 17,
     });
     map.fitBounds(bounds, { padding: [10, 10] });
+    // The map's height depends on the panel below it, which changes as guesses and results are added
+    // or cleared. Leaflet only watches window resizes, so tell it about every size change, or the
+    // basemap is left unrendered in the newly exposed area when the map grows.
+    new ResizeObserver(() => map.invalidateSize()).observe($("map"));
 
     // OpenFreeMap vector tiles, with every symbol (text/icon) layer stripped so nothing is labelled
     // at any zoom. Raster basemaps bake street names into the tiles once you zoom in.
@@ -241,8 +233,19 @@
       return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     }
 
+    // Once the puzzle ends, the page scrolls so long fun facts can be read below the map.
+    // The map shrinks to 70% of its in-game height so there's page left to grab and scroll.
+    const FINISHED_MAP_SCALE = 0.7;
+    function setFinishedLayout(finished) {
+      if (document.body.classList.contains("finished") === finished) return;
+      $("map").style.height = finished ? `${Math.round($("map").offsetHeight * FINISHED_MAP_SCALE)}px` : "";
+      document.body.classList.toggle("finished", finished);
+      map.invalidateSize();
+    }
+
     function render(fresh) {
       const target = byId.get(state.targetId);
+      setFinishedLayout(state.done);
       $("puzzle-label").textContent = state.mode === "daily" ? `#${dayNumber(state.date) + 1}` : "Practice";
       $("target-name").textContent = target.name;
       $("target-routes").innerHTML = bulletsHtml(target.routes);
@@ -310,6 +313,13 @@
       $("result-text").textContent = state.won
         ? `Got it in ${n}/${MAX_GUESSES}!`
         : `Out of guesses — it was ${byId.get(state.targetId).name}.`;
+      const fact = factFor.get(state.targetId);
+      $("fun-fact").hidden = !fact;
+      $("fun-fact-text").textContent = fact ? fact.fact : "";
+      const img = $("fun-fact-img");
+      img.hidden = !fact?.image;
+      if (fact?.image) img.src = fact.image;
+      else img.removeAttribute("src");
       $("share-btn").hidden = state.mode !== "daily";
       $("practice-btn").textContent = state.mode === "daily" ? "Play a random stop" : "Another random stop";
       $("countdown").hidden = state.mode !== "daily";
