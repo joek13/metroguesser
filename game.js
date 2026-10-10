@@ -330,7 +330,7 @@
         return `${bucketFor(dist).emoji} ${fmtDistance(dist)}`;
       });
       const score = state.won ? state.guesses.length : "X";
-      return `MetroGuesser ${system.name} #${dayNumber(state.date) + 1} ${score}/${MAX_GUESSES}\n${rows.join("\n")}`;
+      return `metroguesser ${system.id} #${dayNumber(state.date) + 1} - ${target.name} - ${score}/${MAX_GUESSES}\n${rows.join("\n")}`;
     }
 
     function tickCountdown() {
