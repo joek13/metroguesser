@@ -7,6 +7,7 @@ window.METRO_SYSTEM = {
   // Upper bounds (in `units`) of the green / yellow / orange distance bands; beyond is red.
   distanceBands: [0.5, 1.5, 4],
   credit: "Stations: MTA",
+  url: "https://metroguesser.nyc", // ends the share text
   routeColors: {
     "1": "#EE352E", "2": "#EE352E", "3": "#EE352E",
     "4": "#00933C", "5": "#00933C", "6": "#00933C",

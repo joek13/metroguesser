@@ -330,7 +330,7 @@
         return `${bucketFor(dist).emoji} ${fmtDistance(dist)}`;
       });
       const score = state.won ? state.guesses.length : "X";
-      return `metroguesser ${system.id} #${dayNumber(state.date) + 1} - ${target.name} - ${score}/${MAX_GUESSES}\n${rows.join("\n")}`;
+      return `MetroGuesser #${dayNumber(state.date) + 1} ${score}/${MAX_GUESSES}\n${rows.join("\n")}\n${system.url}`;
     }
 
     function tickCountdown() {
@@ -357,7 +357,6 @@
 
     // ---------- Page text ----------
 
-    document.title = `MetroGuesser · ${system.name}`;
     $("help-system").textContent = system.name;
     const bandLabels = [
       `under ${system.distanceBands[0]} ${system.units}`,

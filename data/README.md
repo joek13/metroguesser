@@ -9,12 +9,13 @@ Files are plain JS that set globals rather than JSON, so the game still works wh
 | field            | example                | notes |
 |------------------|------------------------|-------|
 | `id`             | `"nyc"`                | matches the folder name; namespaces saved progress |
-| `name`           | `"New York City Subway"` | shown in the page title and help |
+| `name`           | `"New York City Subway"` | shown in the help |
 | `timezone`       | `"America/New_York"`   | IANA zone; the daily station changes at local midnight |
 | `launchDate`     | `"2026-10-09"`         | date of puzzle #1; don't change it after launch |
 | `units`          | `"mi"` or `"km"`       | distance display |
 | `distanceBands`  | `[0.5, 1.5, 4]`        | upper bounds of the green/yellow/orange bands, in `units` |
 | `credit`         | `"Stations: MTA"`      | appended to the map attribution |
+| `url`            | `"https://metroguesser.nyc"` | the last line of the share text |
 | `routeColors`    | `{ "A": "#0039A6" }`   | bullet background per route; unknown routes are gray |
 | `darkTextRoutes` | `["N", "Q"]`           | routes whose bullet uses black text |
 
