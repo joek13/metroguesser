@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>MetroGuesser</title>
-  <meta name="description" content="A daily NYC subway station guessing game.">
+  <meta name="description" content="A daily metro station guessing game.">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
   <link rel="stylesheet" href="style.css">
@@ -47,16 +47,11 @@
 
   <dialog id="help">
     <h2>How to play</h2>
-    <p>Each day there's a new mystery NYC subway station. Its name and the trains that stop there are shown at the top.</p>
+    <p>Each day there's a new mystery <span id="help-system"></span> station. Its name and the trains that stop there are shown at the top.</p>
     <p>The map has no labels. Tap the dot where you think the station is, then press <b>Guess</b>. You get <b>6 guesses</b>.</p>
     <p>A wrong guess is labelled on the map with how far it is from the answer:</p>
-    <ul class="legend">
-      <li><span class="swatch d0"></span> under ½ mile</li>
-      <li><span class="swatch d1"></span> ½ – 1½ miles</li>
-      <li><span class="swatch d2"></span> 1½ – 4 miles</li>
-      <li><span class="swatch d3"></span> over 4 miles</li>
-    </ul>
-    <p class="fine">A new station appears at midnight New York time. Data: MTA Open Data.</p>
+    <ul class="legend" id="help-legend"></ul>
+    <p class="fine">A new station appears at local midnight. <span id="help-credit"></span></p>
     <form method="dialog"><button class="primary">Got it</button></form>
   </dialog>
 
@@ -65,8 +60,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-  <script src="data/stations.js"></script>
-  <script src="data/lines.js"></script>
+  <script src="data/systems.js"></script>
   <script src="game.js"></script>
 </body>
 </html>

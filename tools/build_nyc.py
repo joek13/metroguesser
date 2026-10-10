@@ -1,9 +1,9 @@
-"""Build data/stations.js and data/lines.js from MTA open data.
+"""Build data/nyc/stations.js and data/nyc/lines.js from MTA open data.
 
 Usage:
   curl -sS 'https://data.ny.gov/resource/39hk-dx4f.json?$limit=5000' -o stations.json
   curl -sSL https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip -o gtfs.zip && unzip gtfs.zip -d gtfs
-  python3 tools/build_data.py stations.json gtfs/ data/
+  python3 tools/build_nyc.py stations.json gtfs/ data/nyc/
 """
 import csv, json, os, sys
 from collections import defaultdict
