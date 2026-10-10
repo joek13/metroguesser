@@ -7,7 +7,7 @@ window.FUN_FACTS = [
   // #1 · 2026-10-09
   { id: "130", station: "Wilson Av (L)", fact: null },
   // #2 · 2026-10-10
-  { id: "297", station: "215 St (1)", image: "img/elvis.png", fact: "TEST FACT: 215 St is the northernmost station in Manhattan on the 1." },
+  { id: "297", station: "215 St (1)", fact: null },
   // #3 · 2026-10-11
   { id: "213", station: "Fordham Rd (B D)", fact: null },
   // #4 · 2026-10-12
