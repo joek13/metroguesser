@@ -309,7 +309,7 @@
       const n = state.guesses.length;
       $("result-text").textContent = state.won
         ? `Got it in ${n}/${MAX_GUESSES}!`
-        : `Out of guesses — it was ${byId.get(state.targetId).name}.`;
+        : `Out of guesses — here's ${byId.get(state.targetId).name}.`;
       const fact = factFor.get(state.targetId);
       $("fun-fact").hidden = !fact;
       $("fun-fact-text").textContent = fact ? fact.fact : "";
