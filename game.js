@@ -233,12 +233,9 @@
       return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     }
 
-    // Once the puzzle ends, the page scrolls so long fun facts can be read below the map.
-    // The map shrinks to 70% of its in-game height so there's page left to grab and scroll.
-    const FINISHED_MAP_SCALE = 0.7;
+    // The post-game layout (smaller map, result above guesses) is driven by this class in style.css.
     function setFinishedLayout(finished) {
       if (document.body.classList.contains("finished") === finished) return;
-      $("map").style.height = finished ? `${Math.round($("map").offsetHeight * FINISHED_MAP_SCALE)}px` : "";
       document.body.classList.toggle("finished", finished);
       map.invalidateSize();
     }
