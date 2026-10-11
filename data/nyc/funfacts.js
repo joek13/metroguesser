@@ -9,7 +9,9 @@ window.FUN_FACTS = [
   // #2 · 2026-10-10
   { id: "297", station: "215 St (1)", fact: null },
   // #3 · 2026-10-11
-  { id: "213", station: "Fordham Rd (B D)", fact: null },
+  { id: "213", station: "Fordham Rd (B D)", fact:
+  `Fordham Road station is located just a few blocks south of the <b>Edgar Allan Poe Cottage</b>, home to the American writer.`
+  , image: "poe_cottage.jpg", image_attribution: "Zoirusha / Wikimedia Commons / Public Domain" },
   // #4 · 2026-10-12
   { id: "67", station: "20 Av (D)", fact: null },
   // #5 · 2026-10-13

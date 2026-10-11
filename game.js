@@ -312,11 +312,14 @@
         : `Out of guesses — here's ${byId.get(state.targetId).name}.`;
       const fact = factFor.get(state.targetId);
       $("fun-fact").hidden = !fact;
-      $("fun-fact-text").textContent = fact ? fact.fact : "";
+      $("fun-fact-text").innerHTML = fact ? fact.fact : "";
       const img = $("fun-fact-img");
-      img.hidden = !fact?.image;
-      if (fact?.image) img.src = fact.image;
+      $("fun-fact-figure").hidden = !fact?.image;
+      if (fact?.image) img.src = `img/${fact.image}`;
       else img.removeAttribute("src");
+      const caption = $("fun-fact-caption");
+      caption.hidden = !(fact?.image && fact.image_attribution);
+      caption.textContent = caption.hidden ? "" : `Source: ${fact.image_attribution}`;
       $("share-btn").hidden = state.mode !== "daily";
       $("practice-btn").textContent = state.mode === "daily" ? "Play a random stop" : "Another random stop";
       $("countdown").hidden = state.mode !== "daily";

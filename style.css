@@ -202,9 +202,16 @@ body.finished #map { height: calc(0.7 * max(260px, 100svh - 280px)); }
   width: auto;
   height: auto;
   border-radius: 6px;
-  margin: 0 auto 10px;
+  margin: 0 auto;
 }
-.fun-fact-img[hidden] { display: none; }
+.fun-fact-figure { margin: 0 0 10px; }
+.fun-fact-caption {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 4px;
+}
 
 /* After the puzzle ends the result comes first, above the guess list. */
 body.finished .result { order: -1; margin: 0 0 4px; }

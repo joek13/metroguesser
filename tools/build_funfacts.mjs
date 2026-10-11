@@ -42,8 +42,9 @@ const lines = order.map((sid, i) => {
 });
 
 fs.writeFileSync(out, `// Daily solutions for ${system.name}, in order: entry N is puzzle #N (dates in comments).
-// Fill in \`fact\` with a string to show it after the puzzle ends; leave it null to show nothing.
-// \`image\` (optional) is shown above the fact, as a path relative to index.html.
+// Fill in \`fact\` with an HTML string to show it after the puzzle ends; leave it null to show nothing.
+// \`image\` (optional) is shown above the fact, as a path relative to img/.
+// \`image_attribution\` (optional) is shown under the image as "Source: …".
 // \`station\` is only for humans; the game matches on \`id\`.
 // Don't reorder or remove past entries, or old puzzles and share results will change.
 // After the last entry the list starts over from #1.

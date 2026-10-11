@@ -42,13 +42,14 @@ The fixed order of daily solutions, plus an optional hand-written fun fact for e
 
 ```js
 // #2 · 2026-10-10
-{ id: "297", station: "215 St (1)", image: "img/elvis.png", fact: null },
+{ id: "213", station: "Fordham Rd (B D)", fact: "…", image: "poe_cottage.jpg", image_attribution: "…" },
 ```
 
 - `id`: the station's id in `stations.js`.
 - `station`: for humans only; the game ignores it.
-- `fact`: `null`, or a string shown under "Did you know?" when the puzzle ends (won or lost). It's also shown in practice mode.
-- `image`: optional path or URL to an image shown at the top of the "Did you know?" box, relative to `index.html` (e.g. `img/elvis.png`). The image only appears for entries that also have a `fact`.
+- `fact`: `null`, or an HTML string shown under "Did you know?" when the puzzle ends (won or lost). It's also shown in practice mode.
+- `image`: optional path to an image shown at the top of the "Did you know?" box, relative to `img/` (e.g. `poe_cottage.jpg`). The image only appears for entries that also have a `fact`.
+- `image_attribution`: optional credit shown under the image as "Source: …".
 
 To write facts, edit this file by hand. Don't reorder or delete entries that have already been played.
 `node tools/build_funfacts.mjs <id>` creates the file for a new system. It refuses to overwrite an existing one.
