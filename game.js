@@ -19,7 +19,7 @@
   Promise.all(["system", "stations", "lines", "funfacts"].map((f) => loadScript(`data/${systemId}/${f}.js`)))
     .then(() => main(window.METRO_SYSTEM, window.STATIONS, window.LINES, window.FUN_FACTS))
     .catch((err) => {
-      document.getElementById("status").textContent = `Couldn't load map data: ${err.message}`;
+      document.getElementById("target-name").textContent = `Couldn't load map data: ${err.message}`;
     });
 
   function main(system, stations, lines, funFacts) {
@@ -107,10 +107,25 @@
       maxZoom: 17,
     });
     map.fitBounds(bounds, { padding: [10, 10] });
-    // The map's height depends on the panel below it, which changes as guesses and results are added
-    // or cleared. Leaflet only watches window resizes, so tell it about every size change, or the
-    // basemap is left unrendered in the newly exposed area when the map grows.
+    // Leaflet only watches window resizes, so tell it about every map size change (e.g. the
+    // post-game shrink), or the basemap is left unrendered in the newly exposed area when it grows.
     new ResizeObserver(() => map.invalidateSize()).observe($("map"));
+
+    // Size the map so the screen ends just below the Guess button row. Measured rather than
+    // hard-coded because a long station name can wrap the prompt onto two lines.
+    function fitMap() {
+      // Measure the in-game layout even after the game ends (the finished map is a fraction of it).
+      const finished = document.body.classList.contains("finished");
+      document.body.classList.remove("finished");
+      const panel = document.querySelector(".panel");
+      const row = document.querySelector(".status-row");
+      const mapTop = $("map").getBoundingClientRect().top + window.scrollY;
+      const rowBottom = row.getBoundingClientRect().bottom - panel.getBoundingClientRect().top;
+      const padBottom = parseFloat(getComputedStyle(panel).paddingBottom);
+      document.documentElement.style.setProperty("--map-offset", `${Math.ceil(mapTop + rowBottom + padBottom)}px`);
+      document.body.classList.toggle("finished", finished);
+    }
+    window.addEventListener("resize", fitMap);
 
     // OpenFreeMap vector tiles, with every symbol (text/icon) layer stripped so nothing is labelled
     // at any zoom. Raster basemaps bake street names into the tiles once you zoom in.
@@ -246,10 +261,28 @@
       $("puzzle-label").textContent = state.mode === "daily" ? `#${dayNumber(state.date) + 1}` : "Practice";
       $("target-name").textContent = target.name;
       $("target-routes").innerHTML = bulletsHtml(target.routes);
+      fitMap();
 
       markerLayer.clearLayers();
       const list = $("guesses");
       list.innerHTML = "";
+
+      const pips = $("pips");
+      pips.innerHTML = "";
+      pips.setAttribute("aria-label", `${state.guesses.length} of ${MAX_GUESSES} guesses used`);
+      for (let i = 0; i < MAX_GUESSES; i++) {
+        const pip = document.createElement("span");
+        pip.className = "pip";
+        const id = state.guesses[i];
+        if (i === state.guesses.length && !state.done) pip.classList.add("current");
+        if (id) {
+          const dist = distance(byId.get(id), target);
+          pip.classList.add("used", id === target.id ? "win" : bucketFor(dist).cls);
+          pip.title = id === target.id ? "Correct" : fmtDistance(dist);
+          if (id === target.id) pip.textContent = "✓";
+        }
+        pips.appendChild(pip);
+      }
 
       state.guesses.forEach((id, i) => {
         const s = byId.get(id);
@@ -288,18 +321,9 @@
     }
 
     function renderStatus() {
-      const left = MAX_GUESSES - state.guesses.length;
-      const status = $("status");
       const btn = $("guess-btn");
-      btn.hidden = state.done;
+      btn.style.visibility = state.done ? "hidden" : ""; // keep its space so the row height (and map size) is stable
       btn.disabled = !selected;
-      if (state.done) {
-        status.textContent = "";
-      } else if (selected) {
-        status.innerHTML = `Station selected. <b>${left}</b> guess${left === 1 ? "" : "es"} left.`;
-      } else {
-        status.innerHTML = `Tap a station dot on the map. <b>${left}</b> guess${left === 1 ? "" : "es"} left.`;
-      }
     }
 
     function renderResult() {
