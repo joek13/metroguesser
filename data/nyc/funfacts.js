@@ -15,7 +15,8 @@ window.FUN_FACTS = [
   // #4 · 2026-10-12
   { id: "67", station: "20 Av (D)", fact: null },
   // #5 · 2026-10-13
-  { id: "620", station: "Court St/Borough Hall (2 3 4 5 R)", fact: null },
+  { id: "620", station: "Court St/Borough Hall (2 3 4 5 R)", fact: "The nearby decommissioned Court Street station now houses the <b>New York Transit Museum</b>. The station opened in 1936 and closed just ten years later; today it holds vintage subway cars you can walk through."
+  , image: "nyct.jpg", image_attribution: "The Squirrels / Wikimedia Commons / CC BY-SA 3.0" },
   // #6 · 2026-10-14
   { id: "623", station: "Canal St (6 J Z N Q R W)", fact: null },
   // #7 · 2026-10-15
