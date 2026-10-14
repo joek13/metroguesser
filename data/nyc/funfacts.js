@@ -18,7 +18,8 @@ window.FUN_FACTS = [
   { id: "620", station: "Court St/Borough Hall (2 3 4 5 R)", fact: "The nearby decommissioned Court Street station now houses the <b>New York Transit Museum</b>. The station opened in 1936 and closed just ten years later; today it holds vintage subway cars you can walk through."
   , image: "nyct.jpg", image_attribution: "The Squirrels / Wikimedia Commons / CC BY-SA 3.0" },
   // #6 · 2026-10-14
-  { id: "623", station: "Canal St (6 J Z N Q R W)", fact: null },
+  { id: "623", station: "Canal St (6 J Z N Q R W)", fact:
+    `Canal St was once an actual canal. It was dug in the early 19th century to drain Manhattan's polluted Collect Pond into the Hudson River. By 1820, the city decided to cover the (by then foul-smelling) channel and build a street on top. Read more at <a href='https://ephemeralnewyork.wordpress.com/2025/12/15/what-happened-to-the-canal-that-gave-canal-street-its-name/'>Ephemeral New York</a>.`, image: "canal.jpg", image_attribution: "MCNY F2011.33.871" },
   // #7 · 2026-10-15
   { id: "513", station: "Great Kills (SIR)", fact: null },
   // #8 · 2026-10-16
