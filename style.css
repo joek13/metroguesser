@@ -167,9 +167,6 @@ body.finished #map { height: calc(0.7 * max(260px, 100svh - var(--map-offset, 20
   font-weight: 700;
 }
 
-/* The full guess list only appears after the game; during play the circles stand in for it,
-   so the page is exactly one screen tall and never changes size. */
-body:not(.finished) .guesses,
 .guesses:empty { display: none; }
 .guesses {
   list-style: none;
