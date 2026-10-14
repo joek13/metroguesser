@@ -44,7 +44,11 @@
 
     // ---------- Daily selection ----------
 
-    function localDateString(d = new Date()) {
+    // ?n=<days> previews the puzzle that many days ahead (negative goes back), e.g. to check
+    // upcoming fun facts. Preview games aren't saved, so they don't spoil the real day.
+    const dayOffset = parseInt(new URLSearchParams(location.search).get("n"), 10) || 0;
+
+    function localDateString(d = new Date(Date.now() + dayOffset * 86400000)) {
       return new Intl.DateTimeFormat("en-CA", {
         timeZone: system.timezone, year: "numeric", month: "2-digit", day: "2-digit",
       }).format(d);
@@ -188,7 +192,7 @@
     function startDaily() {
       const date = localDateString();
       const target = dailyStation(date);
-      const saved = load(`${system.id}:daily:${date}`);
+      const saved = dayOffset ? null : load(`${system.id}:daily:${date}`);
       state = saved && saved.targetId === target.id
         ? saved
         : { mode: "daily", date, targetId: target.id, guesses: [], done: false, won: false };
@@ -205,7 +209,7 @@
     }
 
     function persist() {
-      if (state.mode === "daily") save(`${system.id}:daily:${state.date}`, state);
+      if (state.mode === "daily" && !dayOffset) save(`${system.id}:daily:${state.date}`, state);
     }
 
     function select(station) {
@@ -258,7 +262,8 @@
     function render(fresh) {
       const target = byId.get(state.targetId);
       setFinishedLayout(state.done);
-      $("puzzle-label").textContent = state.mode === "daily" ? `#${dayNumber(state.date) + 1}` : "Practice";
+      $("puzzle-label").textContent = state.mode !== "daily" ? "Practice"
+        : `#${dayNumber(state.date) + 1}${dayOffset ? ` · preview ${state.date}` : ""}`;
       $("target-name").textContent = target.name;
       $("target-routes").innerHTML = bulletsHtml(target.routes);
       fitMap();
